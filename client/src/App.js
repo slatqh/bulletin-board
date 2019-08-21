@@ -1,7 +1,7 @@
 import React, { Fragment} from 'react';
 import './App.css'
 import Message from './components/Message'
-import Container from '@material-ui/core/Container';
+import Container from '@material-ui/core/Container'
 import AppBar from './components/NavBar'
 
 
@@ -14,7 +14,6 @@ function App() {
         <Message />
 
       </Container>
-      {/* <List /> */}
     </div>
     </>
   );

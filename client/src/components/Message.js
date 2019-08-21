@@ -3,16 +3,16 @@ import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const value  = `
-Some text Some text
-Some text Some text
-Some text Some text
-Some text Some text
-Some text Some text
-Some text Some text
-Some text Some text
-Some text Some text
-Some text Some text
-Some text Some text
+    Some text Some text
+    Some text Some text
+    Some text Some text
+    Some text Some text
+    Some text Some text
+    Some text Some text
+    Some text Some text
+    Some text Some text
+    Some text Some text
+    Some text Some text
 `
 const postTitle = `Some Title`
 
@@ -67,7 +67,7 @@ const Message = () => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between'
-            }}>
+              }}>
                 <div style={styles.voteButtons}>
                     <Button style={{ marginRight: 5, backgroundColor: 'darkturquoise'}}
                         variant="outlined"
@@ -96,23 +96,23 @@ const Message = () => {
 }
 
 const styles = {
-    container: {
-        display: 'flex',
-         flex: 1,
-         flexDirection: 'column',
-        backgroundColor: 'teal',
-        borderRadius: 10,
-    },
-    buttons: {
-        margin: 15,
-        justifyContent: 'space-around',
-        alignSelf: 'flex-end',
-    },
-    voteButtons: {
-        margin: 15,
+  container: {
+      display: 'flex',
         flex: 1,
-        alignSelf: 'flex-start'
-    }
+        flexDirection: 'column',
+      backgroundColor: 'teal',
+      borderRadius: 10,
+  },
+  buttons: {
+      margin: 15,
+      justifyContent: 'space-around',
+      alignSelf: 'flex-end',
+  },
+  voteButtons: {
+      margin: 15,
+      flex: 1,
+      alignSelf: 'flex-start'
+  }
 }
 export default Message;
 
