@@ -1,7 +1,6 @@
 import React, { Fragment} from 'react';
 import './App.css'
 import Message from './components/Message'
-import List from './components/List'
 import Container from '@material-ui/core/Container';
 import AppBar from './components/NavBar'
 
