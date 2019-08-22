@@ -6,19 +6,19 @@ router.get('/posts', (req, res) => {
     if(err){
       console.log(err)
     }
-    res.send(post)
+    res.send({data: post})
   }).catch(err => console.log(err))
 })
 router.post('/posts', (req,res) => {
-  const { title, name, post, upvote, downvote } = req.body
-  const newPost = new Post({title, name, post, upvote, downvote})
+  const { title, author, post, upvote, downvote } = req.body
+  const newPost = new Post({title, author, post, upvote, downvote})
   newPost.save().then(
     item => {
       res.send({data: {
         id: item._id,
         title: item.title,
         post: item.post,
-        name: item.name,
+        author: item.author,
         upvote: item.upvote,
         downvote: item.downvote}
       })

@@ -13,14 +13,14 @@ const mongoose = require('mongoose');
 // Supporting Libraries
 const bodyParser = require('body-parser');
 
-
 // Globals
 const port = process.env.PORT;
 const dbUrl = process.env.MONGODB_URI;
 
 
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors())
+app.use(bodyParser.json());
+app.use('/', require('./Routes'));
 
 // Configure Database
 mongoose.connect(dbUrl, {
@@ -30,7 +30,6 @@ mongoose.connect(dbUrl, {
 
 
 // Import Routes
-app.use('/', require('./Routes'));
 
 // Start App
 app.listen(port, () => {

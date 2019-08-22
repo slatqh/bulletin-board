@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const post = new Schema({
   id: Number,
   title: String,
-  name: String,
+  author: String,
   post: String,
   upvote: Number,
   downvote: Number,
