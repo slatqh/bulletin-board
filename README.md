@@ -7,5 +7,3 @@ How to start:
 2. Change database name in .env
     MONGODB_URI = 'mongodb://localhost:27017/{_YOU DB NAME_}'
 3. Run 'npm run dev' from root project directory.
-
-
