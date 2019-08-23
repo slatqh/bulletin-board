@@ -13,7 +13,7 @@ import { Post } from './Api/Post';
 
 const App = () => {
   const [posts, setPosts] = useState([]);
-  const [toggle, toggleNewPost] = useState(false);
+  const [toggle, toggleNewPost] = useState(true);
   const [post, postSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   console.log('App');

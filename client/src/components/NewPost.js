@@ -47,14 +47,16 @@ const NewPost = ({ newPostSubmitted, loading }) => {
   };
   return (
     <React.Fragment>
-      <Container maxWidth="sm">
+      <Container>
         <Box
-          border={1}
-          borderColor="grey.500"
+          border={2}
+          borderRadius={10}
+          borderColor="teal"
           style={{
-            padding: 30,
+            padding: 20,
             display: 'flex',
             flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
           <TextField // author name
