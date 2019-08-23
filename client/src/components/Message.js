@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, CircularProgress as Spiner } from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { styles } from './MessageStyles';
 import { Post } from '../Api/Post';
 
 const Message = ({ data, deletePost }) => {
@@ -11,12 +12,14 @@ const Message = ({ data, deletePost }) => {
   const [up, setVoteUp] = useState(upvote);
   const [loading, setLoading] = useState(false);
   const [down, setvoteDown] = useState(downvote);
-  // const [showTags, setTags] = useState(tags);
 
   // actions
 
   const handleEdit = () => {
     setEditMode(!edit);
+    if (post === postText && postTitle === title) {
+      return;
+    }
     try {
       Post.editPost({ id: _id, title: postTitle, post: postText });
     } catch (error) {
@@ -53,7 +56,7 @@ const Message = ({ data, deletePost }) => {
     <div style={styles.container}>
       <div style={{ flex: 1, padding: 10 }}>
         <div style={{ display: 'flex' }}>
-          <h4 style={{ color: 'linen', flex: 1 }}>Author: {author}</h4>
+          <h4 style={styles.author}>Author: {author}</h4>
           <p style={{ alignItems: 'flex-end', color: 'white' }}>
             Date :{' '}
             {data.createdAt ? data.createdAt.split(',', 1).toString() : ''}
@@ -78,27 +81,12 @@ const Message = ({ data, deletePost }) => {
         ) : (
           <>
             <p style={{ color: 'linen' }}>{postTitle}</p>
-            <p
-              style={{
-                backgroundColor: 'honeydew',
-                padding: 15,
-                borderRadius: 10,
-                borderWidth: 1,
-              }}
-            >
-              {postText}
-            </p>
+            <p style={styles.textarea}>{postText}</p>
           </>
         )}
       </div>
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
+      <div // bottom button's
+        style={styles.buttonsContainer}
       >
         <div style={styles.voteButtons}>
           <Button
@@ -135,19 +123,11 @@ const Message = ({ data, deletePost }) => {
           </Button>
         </div>
       </div>
-      <div
-        style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}
-      >
+      <div style={styles.TagsContainer}>
         <span style={{ color: 'white', fontSize: 16, padding: 15 }}>
-          Tags :{' '}
+          tags :{' '}
         </span>
-        <div
-          style={{
-            color: 'antiquewhite',
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-        >
+        <div style={styles.tags}>
           {tags.map((el, i) => (
             <div key={i} style={{ paddingRight: 10 }}>
               {`${el}#`}
@@ -159,36 +139,4 @@ const Message = ({ data, deletePost }) => {
   );
 };
 
-const styles = {
-  container: {
-    display: 'flex',
-    flex: 1,
-    marginBottom: 15,
-    flexDirection: 'column',
-    backgroundColor: 'teal',
-    borderRadius: 10,
-  },
-  buttons: {
-    margin: 15,
-    justifyContent: 'space-around',
-    alignSelf: 'flex-end',
-  },
-  voteButtons: {
-    margin: 15,
-    flex: 1,
-    alignSelf: 'flex-start',
-  },
-  titleInput: {
-    width: '100%',
-    marginBottom: 10,
-    borderRadius: 5,
-    borderColor: 'teal',
-  },
-  textInput: {
-    width: '100%',
-    padding: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-  },
-};
 export default Message;

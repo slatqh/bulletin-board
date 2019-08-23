@@ -15,6 +15,8 @@ const App = () => {
   const [toggle, toggleNewPost] = useState(false);
   const [post, postSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  console.log('App');
   useEffect(() => {
     setLoading(true);
     Post.fetchAllposts().then(({ data }) => setPosts(data), setLoading(false));
@@ -58,16 +60,7 @@ const App = () => {
             <Message data={el} key={el._id} deletePost={id => deletePost(id)} />
           ))
         ) : (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignSelf: 'center',
-              fontSize: 24,
-            }}
-          >
-            No posts. Create one!
-          </div>
+          <div style={styles.noPosts}>No posts. Create one!</div>
         )}
         <Grid
           container
@@ -98,5 +91,12 @@ const App = () => {
     </>
   );
 };
-
+const styles = {
+  noPosts: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    fontSize: 24,
+  },
+};
 export default App;

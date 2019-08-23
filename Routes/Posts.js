@@ -67,5 +67,11 @@ router.post('/delete', (req, res) => {
   })
 })
 
+router.post('/find', (req, res) => {
+  Post.find({}).sort({ createdAt: -1}).execFind(function(err, post){
+    console.log(post)
+  })
+})
+
 
 module.exports = router;
