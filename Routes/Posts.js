@@ -67,9 +67,21 @@ router.post('/delete', (req, res) => {
   })
 })
 
-router.post('/find', (req, res) => {
-  Post.find({}).sort({ createdAt: -1}).execFind(function(err, post){
-    console.log(post)
+router.post('/filterdate', (req, res) => {
+  Post.find({}).sort({ createdAt: -1}).exec(function(err, post){
+    if(err){
+      res.sendStatus(400)
+    }
+    res.send(post)
+  })
+})
+
+router.post('/filtervotes', (req, res) => {
+  Post.find({}).sort({ upvote: -1 }).exec(function(err, post){
+      if(err){
+        res.sendStatus(400)
+      }
+      res.send(post)
   })
 })
 

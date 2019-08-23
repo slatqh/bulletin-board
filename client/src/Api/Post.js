@@ -12,7 +12,6 @@ class PostApi {
   }
 
   async deletePost(id) {
-    // console.log('FORM API', postId);
     try {
       axios.post(`${keys.LOCALHOST}/api/delete/`, { id });
       // return data;
@@ -48,6 +47,15 @@ class PostApi {
       const { data } = await axios.post(`${keys.LOCALHOST}/api/votes`, {
         ...args,
       });
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async filterByVotes() {
+    try {
+      const { data } = await axios.post(`${keys.LOCALHOST}/api/filtervotes`);
       return data;
     } catch (error) {
       throw error;

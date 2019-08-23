@@ -16,14 +16,13 @@ const App = () => {
   const [toggle, toggleNewPost] = useState(false);
   const [post, postSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  console.log('App');
   useEffect(() => {
     setLoading(true);
     Post.fetchAllposts().then(({ data }) => setPosts(data), setLoading(false));
-  }, [post, posts.length]);
+  }, [post]);
 
   const PostSubmitted = () => {
-    console.log('new post submited');
     postSubmitted();
     setLoading(false);
     toggleNewPost(!toggle);
@@ -43,8 +42,13 @@ const App = () => {
   const filterByDate = () => {
     console.log('By Date');
   };
-  const filterByVotes = () => {
-    console.log('By Votes');
+  const filterByVotes = async () => {
+    try {
+      const data = await Post.filterByVotes();
+      setPosts(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const filterByTags = () => {
     console.log('By Tags');
