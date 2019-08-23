@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   Container,
   Grid,
@@ -6,7 +6,8 @@ import {
   CircularProgress as Spiner,
 } from '@material-ui/core/';
 import Message from './components/Message';
-import AppBar from './components/NavBar';
+import { NavBar } from './components/NavBar';
+
 import NewPost from './components/NewPost';
 import { Post } from './Api/Post';
 
@@ -16,7 +17,6 @@ const App = () => {
   const [post, postSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log('App');
   useEffect(() => {
     setLoading(true);
     Post.fetchAllposts().then(({ data }) => setPosts(data), setLoading(false));
@@ -40,10 +40,23 @@ const App = () => {
       console.log(error);
     }
   };
+  const filterByDate = () => {
+    console.log('By Date');
+  };
+  const filterByVotes = () => {
+    console.log('By Votes');
+  };
+  const filterByTags = () => {
+    console.log('By Tags');
+  };
 
   return (
     <>
-      <AppBar />
+      <NavBar
+        byDates={filterByDate}
+        byVotes={filterByVotes}
+        byTags={filterByTags}
+      />
       <Container maxWidth="lg" style={{ marginTop: 30 }}>
         <Grid
           container

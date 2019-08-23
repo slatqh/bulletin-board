@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import { Button, Toolbar, Grid } from '@material-ui/core/';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function NavBar() {
+export const NavBar = ({ byDates, byVotes, byTags }) => {
   const classes = useStyles();
 
   return (
@@ -34,11 +34,55 @@ export default function NavBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Bulletin Board
+            Bulletin
           </Typography>
-          {/* <Button color="inherit">Login</Button> */}
+          <Grid
+            container
+            item
+            xs={12}
+            sm={5}
+            lg={4}
+            xl={2}
+            justify="center"
+            direction="row"
+          >
+            <Grid
+              justify="space-around"
+              container
+              item
+              sm={10}
+              lg={6}
+              xl={10}
+              xs={12}
+            >
+              <Button
+                variant="contained"
+                color="default"
+                size="small"
+                onClick={byDates}
+              >
+                BY DATE{' '}
+              </Button>
+              <Button
+                variant="contained"
+                color="default"
+                size="small"
+                onClick={byVotes}
+              >
+                BY VOTES{' '}
+              </Button>
+              <Button
+                variant="contained"
+                color="default"
+                size="small"
+                onClick={byTags}
+              >
+                BY TAGS{' '}
+              </Button>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
     </div>
   );
-}
+};
