@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import {
+  Container,
+  Grid,
+  Button,
+  CircularProgress as Spiner,
+} from '@material-ui/core/';
 import Message from './components/Message';
 import AppBar from './components/NavBar';
 import NewPost from './components/NewPost';
@@ -9,23 +12,89 @@ import { Post } from './Api/Post';
 
 const App = () => {
   const [posts, setPosts] = useState([]);
+  const [toggle, toggleNewPost] = useState(false);
+  const [post, postSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    Post.fetchAllposts().then(({ data }) => setPosts(data));
-  }, []);
+    setLoading(true);
+    Post.fetchAllposts().then(({ data }) => setPosts(data), setLoading(false));
+  }, [post, posts.length]);
+
+  const PostSubmitted = () => {
+    console.log('new post submited');
+    postSubmitted();
+    setLoading(false);
+    toggleNewPost(!toggle);
+  };
+  const deletePost = id => {
+    const updatePosts = posts.filter(el => el._id !== id);
+    setPosts(updatePosts);
+    setLoading(true);
+    try {
+      Post.deletePost(id)
+        .then(alert('Post deleted'))
+        .then(setLoading(false));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
-      <div className="App">
-        <AppBar />
-        <Container maxWidth="lg" style={{ marginTop: 30 }}>
-          {/* {posts.length > 0 ? (
-            posts.map(el => <Message data={el} key={el._id} />)
+      <AppBar />
+      <Container maxWidth="lg" style={{ marginTop: 30 }}>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
+          style={{ marginBottom: 20 }}
+        >
+          {loading ? <Spiner size={30} style={{}} /> : null}
+        </Grid>
+        {posts.length !== 0 ? (
+          posts.map(el => (
+            <Message data={el} key={el._id} deletePost={id => deletePost(id)} />
+          ))
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignSelf: 'center',
+              fontSize: 24,
+            }}
+          >
+            No posts. Create one!
+          </div>
+        )}
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="flex-end"
+          justify="center"
+          // style={{ marginBottom: 20 }}
+        >
+          <Button
+            onClick={() => toggleNewPost(!toggle)}
+            color={toggle ? 'secondary' : 'primary'}
+            variant="outlined"
+            style={{ margin: 20 }}
+          >
+            {toggle ? 'Cancel' : 'New'}
+          </Button>
+          {toggle ? (
+            <NewPost
+              newPostSubmitted={PostSubmitted}
+              loading={() => setLoading(true)}
+            />
           ) : (
-            <div>Loading....</div>
-          )} */}
-          {/* <Button>Add new</Button> */}
-          <NewPost />
-        </Container>
-      </div>
+            <div />
+          )}
+        </Grid>
+      </Container>
     </>
   );
 };

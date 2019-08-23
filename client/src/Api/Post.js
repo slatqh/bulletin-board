@@ -21,34 +21,38 @@ class PostApi {
     }
   }
 
-  // async signUp(args) {
-  //   try {
-  //     const { data } = await axios.post(`${keys.LOCALHOST}/user/signup`, {
-  //       ...args,
-  //     });
-  //     return data;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+  async submitNewPost(args) {
+    try {
+      const { data } = await axios.post(`${keys.LOCALHOST}/api/posts`, {
+        ...args,
+      });
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
 
-  // async signOut() {
-  //   try {
-  //     const { data } = await axios.post(`${keys.LOCALHOST}/user/signout`);
-  //     return data;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+  async editPost(args) {
+    try {
+      const { data } = await axios.post(`${keys.LOCALHOST}/api/edit`, {
+        ...args,
+      });
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
 
-  // async profileUpdate(args) {
-  //   try {
-  //     const { data } = await axios.post(`${keys.LOCALHOST}/user`, { ...args });
-  //     return data;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+  async updateVotes(args) {
+    try {
+      const { data } = await axios.post(`${keys.LOCALHOST}/api/votes`, {
+        ...args,
+      });
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export const Post = new PostApi();

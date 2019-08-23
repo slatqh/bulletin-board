@@ -1,33 +1,52 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
+import { Button, CircularProgress as Spiner } from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Post } from '../Api/Post';
 
-const Message = ({ data }) => {
-  const { title, author, post, upvote, downvote, _id } = data;
-  console.log(data);
-
+const Message = ({ data, deletePost }) => {
+  const { title, author, post, upvote, downvote, _id, tags } = data;
   const [postTitle, setTitle] = useState(title);
   const [edit, setEditMode] = useState(false);
   const [postText, setPost] = useState(post);
+  const [up, setVoteUp] = useState(upvote);
+  const [loading, setLoading] = useState(false);
+  const [down, setvoteDown] = useState(downvote);
+  // const [showTags, setTags] = useState(tags);
 
   // actions
-  const deletePost = () => {
-    console.log(_id);
+
+  const handleEdit = () => {
+    setEditMode(!edit);
     try {
-      Post.deletePost(_id);
+      Post.editPost({ id: _id, title: postTitle, post: postText });
     } catch (error) {
       console.log(error);
     }
   };
-  const handleEdit = () => {
-    setEditMode(!edit);
-  };
-  const voteUp = () => {
-    console.log('vote Up');
-  };
-  const voteDown = () => {
-    console.log('Vote down');
+
+  const updateVote = async name => {
+    if (name === 'upvote') {
+      setVoteUp(up + 1);
+      setLoading(true);
+      try {
+        const { success } = await Post.updateVotes({ like: name, id: _id });
+        if (success) {
+          setLoading(false);
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    } else {
+      setvoteDown(down + 1);
+      try {
+        const { success } = Post.updateVotes({ like: name, id: _id });
+        if (success) {
+          setLoading(false);
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
   };
 
   return (
@@ -36,7 +55,8 @@ const Message = ({ data }) => {
         <div style={{ display: 'flex' }}>
           <h4 style={{ color: 'linen', flex: 1 }}>Author: {author}</h4>
           <p style={{ alignItems: 'flex-end', color: 'white' }}>
-            Created at 12.14.2019
+            Date :{' '}
+            {data.createdAt ? data.createdAt.split(',', 1).toString() : ''}
           </p>
         </div>
         {edit ? (
@@ -84,16 +104,16 @@ const Message = ({ data }) => {
           <Button
             style={{ marginRight: 5, backgroundColor: 'darkturquoise' }}
             variant="outlined"
-            onClick={voteUp}
+            onClick={() => updateVote('upvote')}
           >
-            UP {upvote || 0}
+            UP {loading ? <Spiner size={20} /> : up || 0}
           </Button>
           <Button
             variant="outlined"
             style={{ backgroundColor: 'white' }}
-            onClick={voteDown}
+            onClick={() => updateVote('downvote')}
           >
-            DOWN {downvote || 0}
+            DOWN - {loading ? <Spiner size={20} /> : down || 0}
           </Button>
         </div>
         <div style={styles.buttons}>
@@ -105,7 +125,11 @@ const Message = ({ data }) => {
           >
             {edit ? 'Save' : 'Edit'}
           </Button>
-          <Button variant="contained" color="secondary" onClick={deletePost}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => deletePost(data._id)}
+          >
             DELETE
             <DeleteIcon style={{ marginLeft: 5 }} />
           </Button>
@@ -114,10 +138,22 @@ const Message = ({ data }) => {
       <div
         style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}
       >
-        <span style={{ color: 'white', fontSize: 18, padding: 15 }}>
+        <span style={{ color: 'white', fontSize: 16, padding: 15 }}>
           Tags :{' '}
         </span>
-        <div style={{ color: 'antiquewhite' }}>Color, Text, Input</div>
+        <div
+          style={{
+            color: 'antiquewhite',
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
+          {tags.map((el, i) => (
+            <div key={i} style={{ paddingRight: 10 }}>
+              {`${el}#`}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

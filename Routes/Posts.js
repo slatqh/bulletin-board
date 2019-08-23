@@ -10,8 +10,8 @@ router.get('/posts', (req, res) => {
   }).catch(err => console.log(err))
 })
 router.post('/posts', (req,res) => {
-  const { title, author, post, upvote, downvote } = req.body
-  const newPost = new Post({title, author, post, upvote, downvote})
+  const { title, author, post, upvote, downvote, tags, createdAt } = req.body
+  const newPost = new Post({title, author, post, upvote, downvote, tags, createdAt})
   newPost.save().then(
     item => {
       res.send({data: {
@@ -20,7 +20,10 @@ router.post('/posts', (req,res) => {
         post: item.post,
         author: item.author,
         upvote: item.upvote,
-        downvote: item.downvote}
+        downvote: item.downvote,
+        tags: item.tags,
+        createdAt: item.createdAt
+      }
       })
     }
   ).catch(err => {
@@ -28,20 +31,19 @@ router.post('/posts', (req,res) => {
   })
 })
 router.post('/edit', (req, res) => {
-  const { post, id } = req.body
-  Post.findOneAndUpdate({_id: id}, { $set: { post: post}}).then(
+  const { title, post, id } = req.body
+  Post.findOneAndUpdate({_id: id}, { $set: { post: post, title: title}}).then(
     post => {
-      res.sendStatus(200).send('Post updated')
+      res.send({ success: true})
     }
   ).catch(err => console.log(err))
 
 })
 router.post('/votes', (req, res) => {
   const { id, like } = req.body
-  console.log('FROM VOTE ROUTE', like)
   if(like === 'upvote'){
     Post.findOneAndUpdate({_id: id}, { $inc: { upvote: + 1 }}).then(post =>{
-        res.send(post)
+        res.send({success: true})
     }
     ).catch(err => console.log(err))
   }
