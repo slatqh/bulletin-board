@@ -20,12 +20,11 @@ const App = () => {
   useEffect(() => {
     setLoading(true);
     Post.fetchAllposts().then(({ data }) => setPosts(data), setLoading(false));
-  }, [post]);
+  }, [toggle]);
 
   const PostSubmitted = () => {
-    postSubmitted();
-    setLoading(false);
     toggleNewPost(!toggle);
+    setLoading(false);
   };
   const deletePost = id => {
     const updatePosts = posts.filter(el => el._id !== id);
