@@ -1,8 +1,6 @@
 # bulletin-board
 Bulletin Board
 
-# live demo
-https://react-bulletin.herokuapp.com/
 
 # How to start:
  -1. Run 'npm install' or 'yarn'  in root and '/client' directories.
